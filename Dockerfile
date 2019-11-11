@@ -82,6 +82,17 @@ RUN docker-php-ext-install pdo_pgsql
 RUN apt install -y libpcre3-dev
 RUN docker-php-ext-install opcache
 
+# EXIF
+RUN apt-get -yqq update
+RUN apt-get -yqq install exiftool
+RUN docker-php-ext-configure exif
+RUN docker-php-ext-install exif
+RUN docker-php-ext-enable exif
+
+# CAS
+ADD phpcas.tar.gz /root/phpcas.tar.gz
+RUN pear install /root/phpcas.tar.gz
+
 # CLEAN APT
 RUN apt autoremove -y
 
