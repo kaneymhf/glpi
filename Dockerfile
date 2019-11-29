@@ -70,6 +70,6 @@ COPY main.sh /root/main.sh
 
 RUN chmod 755 /root/main.sh
 
-EXPOSE 80/tcp 443/tcp
+EXPOSE 80/tcp
 
 CMD ["/root/main.sh"]
