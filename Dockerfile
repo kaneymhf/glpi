@@ -1,49 +1,75 @@
-FROM alpine:3.10
-LABEL Maintainer="Tim de Pater <code@trafex.nl>" \
-      Description="Lightweight container with Nginx 1.16 & PHP-FPM 7.3 based on Alpine Linux."
+FROM centos:7
 
-# Install packages
-RUN apk --no-cache add php7 php7-fpm php7-mysqli php7-json php7-openssl php7-curl \
-    php7-zlib php7-xml php7-phar php7-intl php7-dom php7-xmlreader php7-ctype php7-session \
-    php7-mbstring php7-gd nginx supervisor curl php7-fileinfo php7-simplexml \
-    php7-ldap php7-imap php7-pecl-apcu php7-opcache php7-xmlrpc  php7-exif php7-iconv php7-snmp
+LABEL Maintainer="Maykon Facincani <facincani.maykon@gmail.com>"
+LABEL Description="GLPI Container Apache 2.4 & PHP 7.3 based on CentOS Linux."
 
-# Configure nginx
-COPY config/nginx.conf /etc/nginx/nginx.conf
-# Remove default server definition
-RUN rm /etc/nginx/conf.d/default.conf
+ENV DB_HOST mariadb
 
-# Configure PHP-FPM
-COPY config/fpm-pool.conf /etc/php7/php-fpm.d/www.conf
-COPY config/php.ini /etc/php7/conf.d/custom.ini
+ENV DB_PORT 3306
 
-# Configure supervisord
-COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ENV DB_DATABASE glpi
 
-# Make sure files/folders needed by the processes are accessable when they run under the nobody user
-RUN chown -R nobody.nobody /run && \
-  chown -R nobody.nobody /var/lib/nginx && \
-  chown -R nobody.nobody /var/tmp/nginx && \
-  chown -R nobody.nobody /var/log/nginx
+ENV DB_USER glpi
 
-# Setup document root
-RUN mkdir -p /var/www/html
+ENV DB_PASSWORD glpi
 
-# Make the document root a volume
-VOLUME /var/www/html
+ENV IS_INSTALLED 0
 
-# Switch to use a non-root user from here on
-USER nobody
+RUN curl 'https://setup.ius.io/' | sh 
 
-# Add application
-WORKDIR /var/www/html
-#COPY --chown=nobody src/ /var/www/html/
+RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm 
+RUN yum -y install epel-release yum-utils
 
-# Expose the port nginx is reachable on
-EXPOSE 80
+RUN yum-config-manager --enable remi-php73
 
-# Let supervisord start nginx & php-fpm
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+RUN yum -y install \
+		mod_php \
+		php-cli \
+		php-mysqlnd
 
-# Configure a healthcheck to validate that everything is up&running
-HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-ping
+RUN yum -y install \
+		bzip2 \
+		httpd mod_ssl \
+        php-common \
+		php-json \
+		php-mbstring \
+		php-mysqli \
+		php-session \
+		php-gd \
+		php-curl \
+		php-domxml \
+		php-imap \
+		php-ldap \
+		php-openssl \
+		php-opcache \
+		php-apcu \
+		php-xmlrpc \
+		php-intl \
+        php-pecl-apcu \
+		php-snmp \
+		php-soap \
+		openssl \
+		jq \
+		php-pear-CAS \
+		php-pear \
+		php-devel \
+		httpd-devel \ 
+		pcre-devel \ 
+		gcc \ 
+		make \
+	&& yum -y clean all \
+	&& rm -rf /var/cache/yum
+
+ADD php.d /etc/php.d
+
+ADD conf.d /etc/httpd/conf.d
+
+ADD html /var/www/html
+
+COPY main.sh /root/main.sh
+
+RUN chmod 755 /root/main.sh
+
+EXPOSE 80/tcp 443/tcp
+
+CMD ["/root/main.sh"]
