@@ -1,11 +1,12 @@
+![Docker Pulls](https://img.shields.io/docker/pulls/kaneymhf/docker-glpi) [![](https://images.microbadger.com/badges/image/kaneymhf/docker-glpi.svg)](https://microbadger.com/images/kaneymhf/docker-glpi "Get your own image badge on microbadger.com") ![Docker Stars](https://img.shields.io/docker/stars/kaneymhf/docker-glpi) [![](https://images.microbadger.com/badges/version/kaneymhf/docker-glpi.svg)](https://microbadger.com/images/kaneymhf/docker-glpi "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/license/kaneymhf/docker-glpi.svg)](https://microbadger.com/images/kaneymhf/docker-glpi "Get your own license badge on microbadger.com")
+
 # Docker GLPI
 
-This images contains an instance of GLPI web application served by apache 2.4 and php 7.3 on port 80, based on CentOS 7 Linux
+This images contains an instance of GLPI version 9.4.4 served by apache 2.4 and php 7.3 on port 80, based on CentOS 7 Linux
 
 # Docker Informations
 
 * This image expose the following port
-
 
 | Port | Usage |
 |:----:|:-----:|
