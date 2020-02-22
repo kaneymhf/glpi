@@ -60,6 +60,9 @@ RUN yum -y install \
 	&& yum -y clean all \
 	&& rm -rf /var/cache/yum
 
+# Add Composer
+RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer
+
 ADD php.d /etc/php.d
 
 ADD conf.d /etc/httpd/conf.d
@@ -69,6 +72,8 @@ ADD html /var/www/html
 COPY main.sh /root/main.sh
 
 RUN chmod 755 /root/main.sh
+
+RUN composer install -d=/var/www/html/glpi
 
 EXPOSE 80/tcp 443/tcp
 
