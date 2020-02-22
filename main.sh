@@ -14,8 +14,6 @@ set -x
     echo ; 
  } > /var/www/html/glpi/config/config_db.php
 
-composer install -d=/var/www/html/glpi
-
 if [ $IS_INSTALLED -eq 1 ];
 then
     rm -rf /var/www/html/glpi/install
