@@ -73,8 +73,6 @@ COPY main.sh /root/main.sh
 
 RUN chmod 755 /root/main.sh
 
-RUN composer install -d=/var/www/html/glpi
-
 EXPOSE 80/tcp 443/tcp
 
 CMD ["/root/main.sh"]
