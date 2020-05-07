@@ -69,6 +69,13 @@ if (isset($_POST["add"])) {
 
 } else if (isset($_POST['update'])) {
    $track->check($_POST['id'], UPDATE);
+
+   /// STIC FIX: AUTOMATIC ADD INTERNAL_TIME_TO_OWN
+   if( $_POST['internal_time_to_own'] == '' && $_POST['_itil_assign']['_type'] == 'user' ){
+      $_POST['internal_time_to_own'] = ($_POST['internal_time_to_own'] != '') ? $_POST['internal_time_to_own'] : date("Y-m-d H:i");
+   }
+   /// END FIX
+
    $track->update($_POST);
 
    if (isset($_POST['kb_linked_id'])) {
@@ -155,7 +162,7 @@ if (isset($_POST["add"])) {
 
 } else if (isset($_POST['addme_observer'])) {
    $track->check($_POST['tickets_id'], READ);
-   $input = array_merge($track->fields, [
+   $input = array_merge(Toolbox::addslashes_deep($track->fields), [
       'id' => $_POST['tickets_id'],
       '_itil_observer' => [
          '_type' => "user",
@@ -171,7 +178,7 @@ if (isset($_POST["add"])) {
 
 } else if (isset($_POST['addme_assign'])) {
    $track->check($_POST['tickets_id'], READ);
-   $input = array_merge($track->fields, [
+   $input = array_merge(Toolbox::addslashes_deep($track->fields), [
       'id' => $_POST['tickets_id'],
       '_itil_assign' => [
          '_type' => "user",
@@ -183,6 +190,15 @@ if (isset($_POST["add"])) {
    Event::log($_POST['tickets_id'], "ticket", 4, "tracking",
               //TRANS: %s is the user login
               sprintf(__('%s adds an actor'), $_SESSION["glpiname"]));
+              
+   /// STIC FIX: AUTOMATIC ADD INTERNAL_TIME_TO_OWN WHEN AUTO ASSIGNED
+   if ( $track->fields['internal_time_to_own'] == '' || $track->fields['internal_time_to_own'] == null ) {
+      $track->update(
+         [ 'id' => $_POST['tickets_id'] , 'internal_time_to_own' => date("Y-m-d H:i") ]
+      );
+   }
+   /// END STIC FIX
+
    Html::redirect(Ticket::getFormURLWithID($_POST['tickets_id']));
 } else if (isset($_REQUEST['delete_document'])) {
    $doc = new Document();

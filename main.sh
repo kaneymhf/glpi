@@ -19,4 +19,6 @@ then
     rm -rf /var/www/html/glpi/install
 fi
 
+chmod 775 -R /var/www/html/glpi/config
+
 /usr/sbin/httpd -DFOREGROUND
