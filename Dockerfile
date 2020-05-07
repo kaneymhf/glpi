@@ -1,7 +1,7 @@
 FROM centos:7
 
 LABEL Maintainer="Maykon Facincani <facincani.maykon@gmail.com>"
-LABEL Description="GLPI 9.4.5 Container Apache 2.4 & PHP 7.3 based on CentOS Linux."
+LABEL Description="GLPI 9.4.6 Container Apache 2.4 & PHP 7.4 based on CentOS Linux."
 
 ENV DB_HOST mariadb
 
@@ -20,7 +20,7 @@ RUN curl 'https://setup.ius.io/' | sh
 RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm 
 RUN yum -y install epel-release yum-utils
 
-RUN yum-config-manager --enable remi-php73
+RUN yum-config-manager --enable remi-php74
 
 RUN yum -y install \
 		mod_php \

@@ -54,6 +54,12 @@ if (isset($_POST["add"])) {
       Html::back();
    }
 
+   /// STIC FIX: AUTOMATIC ADD INTERNAL_TIME_TO_RESOLVE
+   $track->update(
+      [ 'id' => $_POST['items_id'] , 'internal_time_to_resolve' => date("Y-m-d H:i") ]
+   );
+   /// END STIC FIX
+
    if ($solution->add($_POST)) {
       if ($_SESSION['glpibackcreated']) {
          $redirect = $track->getLinkURL();
