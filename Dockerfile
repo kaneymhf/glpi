@@ -73,6 +73,10 @@ COPY main.sh /root/main.sh
 
 RUN chmod 755 /root/main.sh
 
+RUN chown apache:apache -R /var/www/html/glpi
+RUN find /var/www/html/glpi/ -type f -exec chmod 644 {} \; 
+RUN find /var/www/html/glpi/ -type d -exec chmod 775 {} \; 
+
 EXPOSE 80/tcp 443/tcp
 
 CMD ["/root/main.sh"]

@@ -19,8 +19,4 @@ then
     rm -rf /var/www/html/glpi/install
 fi
 
-# Adjusts Permissions
-sudo chmod 775 -R /var/www/html/glpi/files /var/www/html/glpi/config
-sudo chgrp -R apache /var/www/html/glpi/files /var/www/html/glpi/config
-
 /usr/sbin/httpd -DFOREGROUND
