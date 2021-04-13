@@ -1,7 +1,9 @@
 FROM centos:7
 
 LABEL Maintainer="Maykon Facincani <facincani.maykon@gmail.com>"
-LABEL Description="GLPI 9.4.6 Container Apache 2.4 & PHP 7.4 based on CentOS Linux."
+LABEL Description="GLPI 9.5.4 Container Apache 2.4 & PHP 7.4 based on CentOS Linux."
+
+ENV GLPI_VERSION 9.5.4
 
 ENV DB_HOST mariadb
 
@@ -57,6 +59,7 @@ RUN yum -y install \
 		pcre-devel \ 
 		gcc \ 
 		make \
+		wget \
 	&& yum -y clean all \
 	&& rm -rf /var/cache/yum
 
@@ -67,7 +70,9 @@ ADD php.d /etc/php.d
 
 ADD conf.d /etc/httpd/conf.d
 
-ADD html /var/www/html
+RUN wget https://github.com/glpi-project/glpi/releases/download/${GLPI_VERSION}/glpi-${GLPI_VERSION}.tgz -P /tmp
+
+RUN tar -zxvf /tmp/glpi-${GLPI_VERSION}.tgz -C /var/www/html/
 
 COPY main.sh /root/main.sh
 
@@ -77,6 +82,11 @@ RUN chown apache:apache -R /var/www/html/glpi
 RUN find /var/www/html/glpi/ -type f -exec chmod 644 {} \; 
 RUN find /var/www/html/glpi/ -type d -exec chmod 775 {} \; 
 
+RUN cp -rap /var/www/html/glpi/files /root/files
+RUN cp -rap /var/www/html/glpi/plugins /root/plugins
+
 EXPOSE 80/tcp 443/tcp
 
 CMD ["/root/main.sh"]
+
+HEALTHCHECK --interval=5s --timeout=3s CMD curl --fail http://localhost:80/glpi || exit 1
