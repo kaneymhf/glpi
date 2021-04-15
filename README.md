@@ -29,6 +29,8 @@ This images contains an instance of GLPI version 9.4.5 served by apache 2.4 and 
 |:---------------------:|:-----------------------:|
 |  /var/www/glpi/files  |  The files path of GLPI |
 | /var/www/glpi/plugins | The plugin path of GLPI |
+| /var/www/glp/config   | The config path of GLPI |
+
 
 # Usage
 

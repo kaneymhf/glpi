@@ -11,7 +11,7 @@ set -x
     echo "   public \$dbpassword = '${DB_PASSWORD}';"; \
     echo "   public \$dbdefault  = '${DB_DATABASE}';"; \
     echo "}"; \
-    echo ; 
+    echo ;
  } > /var/www/html/glpi/config/config_db.php
 
 if [ $IS_INSTALLED -eq 1 ];
