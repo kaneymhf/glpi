@@ -32,7 +32,7 @@ RUN yum -y install \
 RUN yum -y install \
 		bzip2 \
 		httpd mod_ssl \
-        php-common \
+	        php-common \
 		php-json \
 		php-mbstring \
 		php-mysqli \
@@ -47,7 +47,7 @@ RUN yum -y install \
 		php-apcu \
 		php-xmlrpc \
 		php-intl \
-        php-pecl-apcu \
+	        php-pecl-apcu \
 		php-snmp \
 		php-soap \
 		openssl \
@@ -55,6 +55,7 @@ RUN yum -y install \
 		php-pear-CAS \
 		php-pear \
 		php-devel \
+		php-zip \
 		httpd-devel \ 
 		pcre-devel \ 
 		gcc \ 
