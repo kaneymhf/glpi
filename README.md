@@ -29,6 +29,7 @@ This images contains an instance of GLPI version 9.4.5 served by apache 2.4 and 
 |:---------------------:|:-----------------------:|
 |  /var/www/glpi/files  |  The files path of GLPI |
 | /var/www/glpi/plugins | The plugin path of GLPI |
+| /var/www/glpi/marketplace | The marketplace path of GLPI |
 | /var/www/glp/config   | The config path of GLPI |
 
 
@@ -72,4 +73,6 @@ services:
     volumes:
       - /path/to/files:/var/www/html/glpi/files
       - /path/to/plugins:/var/www/html/glpi/plugins
+      - /path/to/marketplace:/var/www/html/glpi/marketplace
+      - /path/to/config:/var/www/html/glpi/config
 ```

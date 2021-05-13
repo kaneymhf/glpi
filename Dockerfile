@@ -75,15 +75,20 @@ RUN wget https://github.com/glpi-project/glpi/releases/download/${GLPI_VERSION}/
 RUN tar -zxvf /tmp/glpi-${GLPI_VERSION}.tgz -C /var/www/html/
 
 COPY main.sh /root/main.sh
+COPY .htaccess /root/.htaccess
 
 RUN chmod 755 /root/main.sh
 
 RUN chown apache:apache -R /var/www/html/glpi
+
 RUN find /var/www/html/glpi/ -type f -exec chmod 644 {} \; 
 RUN find /var/www/html/glpi/ -type d -exec chmod 775 {} \; 
 
 RUN cp -rap /var/www/html/glpi/files /root/files
+RUN find /var/www/html/glpi/ -type d -exec cp /root/.htaccess {} \;
 RUN cp -rap /var/www/html/glpi/plugins /root/plugins
+RUN cp -rap /var/www/html/glpi/marketplace /root/marketplace
+RUN cp -rap /var/www/html/glpi/config /root/config
 
 EXPOSE 80/tcp 443/tcp
 
