@@ -52,10 +52,13 @@ RUN yum -y install \
 		php-soap \
 		openssl \
 		jq \
+		zip \
+		zlib \
+		zlib-devel \
 		php-pear-CAS \
 		php-pear \
 		php-devel \
-		php-zip \
+		php-pecl-zip \
 		httpd-devel \ 
 		pcre-devel \ 
 		gcc \ 
