@@ -1,9 +1,9 @@
 FROM centos:7
 
 LABEL Maintainer="Maykon Facincani <facincani.maykon@gmail.com>"
-LABEL Description="GLPI 10.0.0 Container Apache 2.4 & PHP 7.4 based on CentOS Linux."
+LABEL Description="GLPI 10.0.1 Container Apache 2.4 & PHP 7.4 based on CentOS Linux."
 
-ENV GLPI_VERSION 10.0.0
+ENV GLPI_VERSION 10.0.1
 
 ENV DB_HOST mariadb
 
