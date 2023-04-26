@@ -2,7 +2,7 @@
 
 # Docker GLPI
 
-This images contains an instance of GLPI version 10.0.5 served by apache 2.4 and php 7.3 on port 80, based on CentOS 7 Linux
+This images contains an instance of GLPI version 10.0.7 served by apache 2.4 and php 7.3 on port 80, based on CentOS 7 Linux
 
 # Docker Informations
 
@@ -21,16 +21,18 @@ This images contains an instance of GLPI version 10.0.5 served by apache 2.4 and
 |  DB_DATABASE |      String      |   glpi  |                Set the database name                |
 |    DB_USER   |      String      |   glpi  |                Set the database user                |
 |  DB_PASSWORD |      String      |   glpi  |              Set the database password              |
-| IS_INSTALLED | Boolean<br>(0/1) |    0    | Set to 1 if it's not the first installation of glpi |
+| INSTALL       | Boolean<br>(0/1) |    0    | Set to 1 if glpi is installing or updating |
+
 
 * The following volume is exposed by this image
 
 |         Volume        |          Usage          |
 |:---------------------:|:-----------------------:|
-|  /var/www/glpi/files  |  The files path of GLPI |
+| /etc/glpi             | The config path of GLPI |
+| /var/lib/glpi         |  The files path of GLPI |
 | /var/www/glpi/plugins | The plugin path of GLPI |
 | /var/www/glpi/marketplace | The marketplace path of GLPI |
-| /var/www/glp/config   | The config path of GLPI |
+| /var/log/glpi   | The logs path of GLPI |
 
 
 # Usage
@@ -69,10 +71,11 @@ services:
       - DB_USER=glpi
       - DB_PASSWORD=glpi
       - DB_DATABASE=glpi
-      - IS_INSTALLED=1
+      - INSTALL=1
     volumes:
-      - /path/to/files:/var/www/html/glpi/files
+      - /path/to/files:/var/lib/glpi
+      - /path/to/logs:/var/log/glpi
       - /path/to/plugins:/var/www/html/glpi/plugins
       - /path/to/marketplace:/var/www/html/glpi/marketplace
-      - /path/to/config:/var/www/html/glpi/config
+      - /path/to/config:/etc/glpi
 ```

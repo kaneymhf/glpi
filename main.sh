@@ -3,30 +3,24 @@
 set -x
 #
 
-{
-    echo "<?php"; \
-    echo "class DB extends DBmysql {"; \
-    echo "   public \$dbhost     = '${DB_HOST}:${DB_PORT}';"; \
-    echo "   public \$dbuser     = '${DB_USER}';"; \
-    echo "   public \$dbpassword = '${DB_PASSWORD}';"; \
-    echo "   public \$dbdefault  = '${DB_DATABASE}';"; \
-    echo "}"; \
-    echo ;
- } > /var/www/html/glpi/config/config_db.php
+/usr/libexec/httpd-ssl-gencerts
 
-if [ $IS_INSTALLED -eq 1 ];
-then
-    rm -rf /var/www/html/glpi/install
+if [ -z "$(ls -A /etc/glpi)" ]; then
+    cp -rap /root/config/* /etc/glpi/.
+fi
+
+if [ $INSTALL -eq 0 ]; then
+ rm -rf /var/www/html/glpi/install
 fi
 
 
 if [ -z "$(ls -A /var/www/html/glpi/files)" ]; then
-    cp -rap /root/files /var/www/html/glpi
+    cp -rap /root/files /var/lib/glpi
 
-    chown apache:apache -R /var/www/html/glpi/files
+    chown apache:apache -R /var/lib/glpi
 
-    find /var/www/html/glpi/files -type f -exec chmod 644 {} \;
-    find /var/www/html/glpi/files -type d -exec chmod 775 {} \;
+    find /var/lib/glpi -type f -exec chmod 644 {} \;
+    find /var/lib/glpi -type d -exec chmod 775 {} \;
 fi
 
 if [ -z "$(ls -A /var/www/html/glpi/plugins)" ]; then
