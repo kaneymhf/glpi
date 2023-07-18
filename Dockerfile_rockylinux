@@ -96,7 +96,6 @@ RUN find /var/www/html/glpi/ -type f -exec chmod 644 {} \;
 RUN find /var/www/html/glpi/ -type d -exec chmod 775 {} \; 
 
 RUN cp -rap /var/www/html/glpi/files /root/files
-RUN find /var/www/html/glpi/ -type d -exec cp /root/.htaccess {} \;
 RUN cp -rap /var/www/html/glpi/plugins /root/plugins
 RUN cp -rap /var/www/html/glpi/marketplace /root/marketplace
 RUN cp -rap /var/www/html/glpi/config /root/config

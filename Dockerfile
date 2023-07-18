@@ -1,9 +1,9 @@
 FROM centos:7
 
 LABEL Maintainer="Maykon Facincani <facincani.maykon@gmail.com>"
-LABEL Description="GLPI 10.0.5 Container Apache 2.4 & PHP 7.4 based on CentOS Linux."
+LABEL Description="GLPI 10.0.7 Container Apache 2.4 & PHP 8.2 based on CentOS Linux."
 
-ENV GLPI_VERSION 10.0.5
+ENV GLPI_VERSION 10.0.7
 
 ENV DB_HOST mariadb
 
@@ -22,7 +22,7 @@ RUN curl 'https://setup.ius.io/' | sh
 RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm 
 RUN yum -y install epel-release yum-utils
 
-RUN yum-config-manager --enable remi-php74
+RUN yum-config-manager --enable remi-php82
 
 RUN yum -y install \
 		mod_php \
@@ -82,6 +82,7 @@ COPY main.sh /root/main.sh
 COPY .htaccess /root/.htaccess
 COPY inc/downstream.php /var/www/html/glpi/inc/downstream.php
 COPY inc/local_define.php /var/www/html/glpi/config/local_define.php
+COPY .htaccess /var/www/html/glpi/.htaccess
 
 RUN chmod 755 /root/main.sh
 
@@ -91,13 +92,12 @@ RUN find /var/www/html/glpi/ -type f -exec chmod 644 {} \;
 RUN find /var/www/html/glpi/ -type d -exec chmod 775 {} \; 
 
 RUN cp -rap /var/www/html/glpi/files /root/files
-RUN find /var/www/html/glpi/ -type d -exec cp /root/.htaccess {} \;
 RUN cp -rap /var/www/html/glpi/plugins /root/plugins
 RUN cp -rap /var/www/html/glpi/marketplace /root/marketplace
 RUN cp -rap /var/www/html/glpi/config /root/config
 
 EXPOSE 80/tcp 443/tcp
 
-CMD ["/root/main.sh"]
+CMD [ "/root/main.sh" ]
 
 HEALTHCHECK --interval=5s --timeout=3s CMD if [ ${INSTALL} -eq 0 ]; then curl --fail http://localhost:80/glpi || exit 1 fi 

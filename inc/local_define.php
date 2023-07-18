@@ -1,5 +1,5 @@
 <?php
-define('GLPI_VAR_DIR', '/var/lib/glpi');
+define('GLPI_VAR_DIR', '/var/lib/glpi/files');
 define('GLPI_DOC_DIR',        GLPI_VAR_DIR);
 define('GLPI_CRON_DIR',       GLPI_VAR_DIR . '/_cron');
 define('GLPI_DUMP_DIR',       GLPI_VAR_DIR . '/_dumps');
