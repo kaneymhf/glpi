@@ -3,7 +3,7 @@
 set -x
 #
 
-/usr/libexec/httpd-ssl-gencerts
+#/usr/libexec/httpd-ssl-gencerts
 
 if [ -z "$(ls -A /etc/glpi)" ]; then
     cp -rap /root/config/* /etc/glpi/.
@@ -35,5 +35,5 @@ fi
 #     find /var/www/html/glpi/marketplace -type d -exec chmod 775 {} \;
 # fi
 
-setenforce 0
+#setenforce 0
 /usr/sbin/httpd -DFOREGROUND

@@ -1,9 +1,9 @@
 FROM centos:7
 
 LABEL Maintainer="Maykon Facincani <facincani.maykon@gmail.com>"
-LABEL Description="GLPI 10.0.7 Container Apache 2.4 & PHP 8.2 based on CentOS Linux."
+LABEL Description="GLPI 10.0.9 Container Apache 2.4 & PHP 8.2 based on CentOS Linux."
 
-ENV GLPI_VERSION 10.0.7
+ENV GLPI_VERSION 10.0.9
 
 ENV DB_HOST mariadb
 
@@ -100,4 +100,4 @@ EXPOSE 80/tcp 443/tcp
 
 CMD [ "/root/main.sh" ]
 
-HEALTHCHECK --interval=5s --timeout=3s CMD if [ ${INSTALL} -eq 0 ]; then curl --fail http://localhost:80/glpi || exit 1 fi 
+#HEALTHCHECK --interval=5s --timeout=3s CMD if [ ${INSTALL} -eq 0 ]; then curl --fail http://localhost:80/glpi || exit 1 fi 
