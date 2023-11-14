@@ -2,7 +2,7 @@
 
 # Docker GLPI
 
-This images contains an instance of GLPI version 10.0.10 served by apache 2.4 and php 7.3 on port 80, based on CentOS 7 Linux
+This images contains an instance of GLPI version 10.0.10 served by apache 2.4 and php 8.2 on port 80, based on CentOS 7 Linux
 
 # Docker Informations
 
