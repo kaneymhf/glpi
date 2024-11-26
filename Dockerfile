@@ -1,9 +1,9 @@
 FROM centos:7
 
 LABEL Maintainer="Maykon Facincani <facincani.maykon@gmail.com>"
-LABEL Description="GLPI 10.0.10 Container Apache 2.4 & PHP 8.2 based on CentOS Linux."
+LABEL Description="GLPI 10.0.16 Container Apache 2.4 & PHP 8.2 based on CentOS Linux."
 
-ENV GLPI_VERSION 10.0.10
+ENV GLPI_VERSION 10.0.16
 
 ENV DB_HOST mariadb
 
@@ -18,6 +18,10 @@ ENV DB_PASSWORD glpi
 ENV INSTALL 0
 
 RUN curl 'https://setup.ius.io/' | sh 
+
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* && \
+    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* && \
+    yum -y update && yum clean all
 
 RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm 
 RUN yum -y install epel-release yum-utils
